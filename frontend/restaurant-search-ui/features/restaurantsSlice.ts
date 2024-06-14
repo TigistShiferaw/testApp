@@ -31,7 +31,7 @@ const initialState: RestaurantsState = {
 export const fetchRestaurants = createAsyncThunk(
   'restaurants/fetchRestaurants',
   async (query: string) => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/search`, { params: { query } });
+    const response = await axios.get(`/api/search`, { params: { query } });
     return response.data;
   }
 );

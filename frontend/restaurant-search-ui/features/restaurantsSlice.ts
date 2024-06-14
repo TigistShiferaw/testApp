@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export interface Restaurant {
@@ -31,7 +31,7 @@ const initialState: RestaurantsState = {
 export const fetchRestaurants = createAsyncThunk(
   'restaurants/fetchRestaurants',
   async (query: string) => {
-    const response = await axios.get(`/api/search`, { params: { query } });
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/search`, { params: { query } });
     return response.data;
   }
 );
@@ -45,7 +45,7 @@ const restaurantsSlice = createSlice({
       .addCase(fetchRestaurants.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchRestaurants.fulfilled, (state, action) => {
+      .addCase(fetchRestaurants.fulfilled, (state, action: PayloadAction<Restaurant[]>) => {
         state.status = 'succeeded';
         state.restaurants = action.payload;
       })
